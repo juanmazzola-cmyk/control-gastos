@@ -17,6 +17,26 @@
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js');
         }
+
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwa-install-banner').classList.remove('hidden');
+        });
+
+        function installPWA() {
+            if (!deferredPrompt) return;
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then(() => {
+                deferredPrompt = null;
+                document.getElementById('pwa-install-banner').classList.add('hidden');
+            });
+        }
+
+        window.addEventListener('appinstalled', () => {
+            document.getElementById('pwa-install-banner').classList.add('hidden');
+        });
     </script>
 </head>
 <body class="bg-gray-50 min-h-screen">
@@ -35,6 +55,18 @@
             <span class="text-sm text-gray-400">{{ now()->locale('es')->isoFormat('D [de] MMMM YYYY') }}</span>
         </div>
     </header>
+
+    <div id="pwa-install-banner" class="hidden bg-indigo-600 text-white px-4 py-3 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 text-sm">
+            <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+            </svg>
+            <span>Instalá la app en tu celular</span>
+        </div>
+        <button onclick="installPWA()" class="bg-white text-indigo-600 text-sm font-semibold px-3 py-1 rounded-lg shrink-0">
+            Instalar
+        </button>
+    </div>
 
     <main class="max-w-2xl mx-auto px-4 py-5 pb-24">
         {{ $slot }}
