@@ -18,15 +18,20 @@
             navigator.serviceWorker.register('/sw.js');
         }
 
-        let deferredPrompt;
+        let deferredPrompt = null;
+
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            document.getElementById('pwa-install-banner').classList.remove('hidden');
+            document.getElementById('pwa-install-text').textContent = 'Instalá la app en tu celular';
+            document.getElementById('pwa-install-btn').textContent = 'Instalar';
         });
 
         function installPWA() {
-            if (!deferredPrompt) return;
+            if (!deferredPrompt) {
+                alert('Para instalar: usá el menú de Chrome (⋮) → "Agregar a pantalla de inicio"');
+                return;
+            }
             deferredPrompt.prompt();
             deferredPrompt.userChoice.then(() => {
                 deferredPrompt = null;
@@ -56,14 +61,14 @@
         </div>
     </header>
 
-    <div id="pwa-install-banner" class="hidden bg-indigo-600 text-white px-4 py-3 flex items-center justify-between gap-3">
+    <div id="pwa-install-banner" class="bg-indigo-600 text-white px-4 py-3 flex items-center justify-between gap-3">
         <div class="flex items-center gap-2 text-sm">
             <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
             </svg>
-            <span>Instalá la app en tu celular</span>
+            <span id="pwa-install-text">Instalá la app en tu celular</span>
         </div>
-        <button onclick="installPWA()" class="bg-white text-indigo-600 text-sm font-semibold px-3 py-1 rounded-lg shrink-0">
+        <button id="pwa-install-btn" onclick="installPWA()" class="bg-white text-indigo-600 text-sm font-semibold px-3 py-1 rounded-lg shrink-0">
             Instalar
         </button>
     </div>
