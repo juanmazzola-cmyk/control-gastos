@@ -21,7 +21,10 @@ try {
     chmod($dbDir, 0775);
     echo "Permisos directorio después: " . decoct(fileperms($dbDir) & 0777) . "\n";
 
-    if (file_exists($dbPath)) {
+    if (is_dir($dbPath)) {
+        rmdir($dbPath);
+        echo "Directorio sqlite eliminado.\n";
+    } elseif (file_exists($dbPath)) {
         unlink($dbPath);
         echo "Archivo viejo eliminado.\n";
     }
