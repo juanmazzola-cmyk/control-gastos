@@ -1,27 +1,37 @@
 <?php
 // Archivo temporal para correr migraciones - BORRAR DESPUÉS DE USAR
-$secret = 'gastos2026';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
+$secret = 'gastos2026';
 if (($_GET['key'] ?? '') !== $secret) {
     die('No autorizado.');
 }
 
-define('LARAVEL_START', microtime(true));
-require __DIR__ . '/../vendor/autoload.php';
-$app = require __DIR__ . '/../bootstrap/app.php';
-$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
-
 echo '<pre>';
-echo "=== Corriendo migraciones ===\n";
-$kernel->call('migrate', ['--force' => true]);
-echo $kernel->output();
 
-echo "\n=== Limpiando caché ===\n";
-$kernel->call('config:clear');
-echo $kernel->output();
+try {
+    define('LARAVEL_START', microtime(true));
+    require __DIR__ . '/../vendor/autoload.php';
+    $app = require __DIR__ . '/../bootstrap/app.php';
+    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 
-$kernel->call('view:clear');
-echo $kernel->output();
+    echo "=== Corriendo migraciones ===\n";
+    $status = $kernel->call('migrate', ['--force' => true]);
+    echo $kernel->output();
+    echo "Exit code: $status\n";
 
-echo "\n=== LISTO - Borrá este archivo ahora ===\n";
+    echo "\n=== Limpiando caché ===\n";
+    $kernel->call('config:clear');
+    echo $kernel->output();
+    $kernel->call('view:clear');
+    echo $kernel->output();
+
+    echo "\n=== LISTO ===\n";
+} catch (\Throwable $e) {
+    echo "\n=== ERROR ===\n";
+    echo $e->getMessage() . "\n";
+    echo "Archivo: " . $e->getFile() . ":" . $e->getLine() . "\n";
+}
+
 echo '</pre>';
