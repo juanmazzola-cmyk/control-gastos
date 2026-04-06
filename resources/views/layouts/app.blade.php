@@ -19,17 +19,28 @@
         }
 
         let deferredPrompt = null;
+        const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+
+        // Si ya está instalada, ocultar banner
+        if (isStandalone) {
+            document.getElementById('pwa-install-banner').classList.add('hidden');
+        } else if (isIOS) {
+            document.getElementById('pwa-install-text').textContent = 'Instalá: Safari → compartir → "Agregar a inicio"';
+            document.getElementById('pwa-install-btn').classList.add('hidden');
+        }
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
             document.getElementById('pwa-install-text').textContent = 'Instalá la app en tu celular';
+            document.getElementById('pwa-install-btn').classList.remove('hidden');
             document.getElementById('pwa-install-btn').textContent = 'Instalar';
         });
 
         function installPWA() {
             if (!deferredPrompt) {
-                alert('Para instalar: usá el menú de Chrome (⋮) → "Agregar a pantalla de inicio"');
+                alert('Chrome bloqueó el prompt automático.\n\nUsá el menú ⋮ → "Agregar a pantalla de inicio"');
                 return;
             }
             deferredPrompt.prompt();
