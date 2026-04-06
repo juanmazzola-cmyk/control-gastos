@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan:*)",
+      "Bash(xargs grep:*)",
+      "Bash(php -l app/Livewire/Dashboard.php)",
+      "Bash(php -l app/Services/AIAnalysisService.php)",
+      "Bash(npm run:*)"
+    ]
+  }
+}
