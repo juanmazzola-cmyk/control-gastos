@@ -272,7 +272,7 @@ class Dashboard extends Component
         $personaA    = $this->getPersonaName('persona_a');
         $personaB    = $this->getPersonaName('persona_b');
         $periodLabel = $this->getPeriodLabel();
-        $balance     = $this->calcularBalance($movements->where('type', 'gasto'));
+        $balance     = $this->calcularBalance($movements->where('type', 'gasto'), $movements->where('type', 'ingreso'));
         $filename    = 'gastos-' . str($periodLabel)->slug() . '-' . now()->format('Ymd') . '.csv';
 
         return response()->streamDownload(function () use ($movements, $personaA, $personaB, $balance, $periodLabel) {
@@ -441,13 +441,18 @@ class Dashboard extends Component
         return ucfirst($meses[$this->filterMonth]) . ' ' . $this->filterYear;
     }
 
-    private function calcularBalance(Collection $gastos): array
+    private function calcularBalance(Collection $gastos, Collection $ingresos = null): array
     {
         $gastosA     = (float) $gastos->where('person', 'persona_a')->sum('amount');
         $gastosB     = (float) $gastos->where('person', 'persona_b')->sum('amount');
         $totalGastos = $gastosA + $gastosB;
         $mitad       = $totalGastos / 2;
-        $diferencia  = $gastosA - $mitad;
+
+        $ingresosA   = $ingresos ? (float) $ingresos->where('person', 'persona_a')->sum('amount') : 0;
+        $ingresosB   = $ingresos ? (float) $ingresos->where('person', 'persona_b')->sum('amount') : 0;
+
+        // Contribución neta: lo que pagó en gastos + lo que ingresó
+        $diferencia  = ($gastosA + $ingresosA) - $mitad;
 
         return [
             'totalGastos' => $totalGastos,
@@ -527,7 +532,7 @@ class Dashboard extends Component
         $gastos    = $movements->where('type', 'gasto');
         $ingresos  = $movements->where('type', 'ingreso');
 
-        $balance   = $this->calcularBalance($gastos);
+        $balance   = $this->calcularBalance($gastos, $ingresos);
         $stats     = $this->calcularEstadisticas($movements);
 
         $ingresosA = (float) $ingresos->where('person', 'persona_a')->sum('amount');
