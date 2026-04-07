@@ -236,15 +236,15 @@
         </div>
 
         {{-- Persona A --}}
-        <div class="bg-white border border-indigo-100 rounded-xl p-4 shadow-sm">
-            <p class="text-xs text-indigo-400 font-medium">{{ $personaA }}</p>
+        <div class="bg-white border border-blue-100 rounded-xl p-4 shadow-sm">
+            <p class="text-xs text-blue-500 font-medium">{{ $personaA }}</p>
             <p class="text-xl font-bold text-gray-900 mt-0.5">${{ number_format($balance['gastosA'], 2) }}</p>
             <p class="text-xs text-gray-400 mt-1">Ingresos: <span class="text-green-600">${{ number_format($ingresosA, 2) }}</span></p>
         </div>
 
         {{-- Persona B --}}
-        <div class="bg-white border border-violet-100 rounded-xl p-4 shadow-sm">
-            <p class="text-xs text-violet-400 font-medium">{{ $personaB }}</p>
+        <div class="bg-white border border-pink-100 rounded-xl p-4 shadow-sm">
+            <p class="text-xs text-pink-500 font-medium">{{ $personaB }}</p>
             <p class="text-xl font-bold text-gray-900 mt-0.5">${{ number_format($balance['gastosB'], 2) }}</p>
             <p class="text-xs text-gray-400 mt-1">Ingresos: <span class="text-green-600">${{ number_format($ingresosB, 2) }}</span></p>
         </div>
@@ -300,7 +300,7 @@
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-1.5 flex-wrap">
                         <span class="text-xs font-medium px-1.5 py-0.5 rounded
-                            {{ $movement->person === 'persona_a' ? 'bg-indigo-100 text-indigo-700' : 'bg-violet-100 text-violet-700' }}">
+                            {{ $movement->person === 'persona_a' ? 'bg-blue-100 text-blue-700' : 'bg-pink-100 text-pink-600' }}">
                             {{ $movement->person === 'persona_a' ? $personaA : $personaB }}
                         </span>
                         <span class="text-xs text-gray-500">{{ $movement->category }}</span>
@@ -470,7 +470,7 @@
             {{-- Persona A --}}
             <div>
                 <div class="flex justify-between mb-1">
-                    <span class="text-xs font-medium text-indigo-600">{{ $personaA }}</span>
+                    <span class="text-xs font-medium text-blue-600">{{ $personaA }}</span>
                     <span class="text-xs font-semibold text-gray-700">${{ number_format($balance['gastosA'], 2) }}
                         @if ($balance['totalGastos'] > 0)
                         <span class="text-gray-400 font-normal">({{ round($balance['gastosA'] / $balance['totalGastos'] * 100) }}%)</span>
@@ -478,7 +478,7 @@
                     </span>
                 </div>
                 <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-indigo-400 rounded-full transition-all duration-500"
+                    <div class="h-full bg-blue-500 rounded-full transition-all duration-500"
                          style="width: {{ $balance['totalGastos'] > 0 ? round($balance['gastosA'] / $balance['totalGastos'] * 100) : 0 }}%">
                     </div>
                 </div>
@@ -486,7 +486,7 @@
             {{-- Persona B --}}
             <div>
                 <div class="flex justify-between mb-1">
-                    <span class="text-xs font-medium text-violet-600">{{ $personaB }}</span>
+                    <span class="text-xs font-medium text-pink-500">{{ $personaB }}</span>
                     <span class="text-xs font-semibold text-gray-700">${{ number_format($balance['gastosB'], 2) }}
                         @if ($balance['totalGastos'] > 0)
                         <span class="text-gray-400 font-normal">({{ round($balance['gastosB'] / $balance['totalGastos'] * 100) }}%)</span>
@@ -494,7 +494,7 @@
                     </span>
                 </div>
                 <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-violet-400 rounded-full transition-all duration-500"
+                    <div class="h-full bg-pink-400 rounded-full transition-all duration-500"
                          style="width: {{ $balance['totalGastos'] > 0 ? round($balance['gastosB'] / $balance['totalGastos'] * 100) : 0 }}%">
                     </div>
                 </div>
@@ -581,7 +581,7 @@
             <div>
                 <label class="block text-xs font-medium text-gray-500 mb-1">Persona A</label>
                 <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 bg-indigo-100 rounded-full flex items-center justify-center text-xs font-bold text-indigo-600 shrink-0">A</span>
+                    <span class="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center text-xs font-bold text-blue-600 shrink-0">A</span>
                     <input wire:model="editPersonaA" type="text" maxlength="50"
                            placeholder="Nombre de la persona A"
                            class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2
@@ -594,7 +594,7 @@
             <div>
                 <label class="block text-xs font-medium text-gray-500 mb-1">Persona B</label>
                 <div class="flex items-center gap-2">
-                    <span class="w-7 h-7 bg-violet-100 rounded-full flex items-center justify-center text-xs font-bold text-violet-600 shrink-0">B</span>
+                    <span class="w-7 h-7 bg-pink-100 rounded-full flex items-center justify-center text-xs font-bold text-pink-600 shrink-0">B</span>
                     <input wire:model="editPersonaB" type="text" maxlength="50"
                            placeholder="Nombre de la persona B"
                            class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2
