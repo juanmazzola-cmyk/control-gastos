@@ -4,6 +4,7 @@ deployment:
     - export DEPLOYPATH=/home/$USER/public_html/gastos
     - cd $DEPLOYPATH && composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
     - cd $DEPLOYPATH && php artisan config:cache
+    - cd $DEPLOYPATH && php artisan route:clear
     - cd $DEPLOYPATH && php artisan route:cache
     - cd $DEPLOYPATH && php artisan view:clear
     - cd $DEPLOYPATH && php artisan migrate --force
