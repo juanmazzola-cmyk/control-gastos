@@ -748,21 +748,6 @@
 @if ($activeTab === 'datos')
 <div class="space-y-4">
 
-    {{-- Info global --}}
-    <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
-        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Base de datos</p>
-        <div class="grid grid-cols-2 gap-3">
-            <div class="text-center">
-                <p class="text-2xl font-bold text-gray-900">{{ $totalRegistros }}</p>
-                <p class="text-xs text-gray-400">Registros totales</p>
-            </div>
-            <div class="text-center">
-                <p class="text-2xl font-bold text-gray-900">{{ $movements->count() }}</p>
-                <p class="text-xs text-gray-400">En período actual</p>
-            </div>
-        </div>
-    </div>
-
     {{-- Exportar Excel (período actual) --}}
     <div class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm space-y-2">
         <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Exportar a Excel</p>
@@ -881,33 +866,6 @@
         </div>
     </div>
 
-    {{-- Zona de peligro --}}
-    <div class="bg-white border border-red-100 rounded-xl p-4 shadow-sm space-y-3">
-        <p class="text-xs font-semibold text-red-400 uppercase tracking-wider">Zona de peligro</p>
-
-        @if (! $confirmDeleteAll)
-        <button wire:click="$set('confirmDeleteAll', true)"
-                class="w-full py-2.5 rounded-xl text-sm font-semibold text-red-500
-                       border border-red-200 hover:bg-red-50 transition-colors">
-            Borrar todos los registros…
-        </button>
-        @else
-        <div class="bg-red-50 border border-red-200 rounded-xl p-3 space-y-2">
-            <p class="text-sm text-red-700 font-medium text-center">¿Seguro? Esta acción no se puede deshacer.</p>
-            <div class="grid grid-cols-2 gap-2">
-                <button wire:click="deleteAll"
-                        class="py-2 rounded-xl text-sm font-bold bg-red-500 hover:bg-red-600 text-white transition-colors">
-                    Sí, borrar todo
-                </button>
-                <button wire:click="$set('confirmDeleteAll', false)"
-                        class="py-2 rounded-xl text-sm font-semibold text-gray-500
-                               border border-gray-200 hover:bg-gray-50 transition-colors">
-                    Cancelar
-                </button>
-            </div>
-        </div>
-        @endif
-    </div>
 
 </div>
 @endif
