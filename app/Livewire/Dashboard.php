@@ -451,8 +451,8 @@ class Dashboard extends Component
         $ingresosA   = $ingresos ? (float) $ingresos->where('person', 'persona_a')->sum('amount') : 0;
         $ingresosB   = $ingresos ? (float) $ingresos->where('person', 'persona_b')->sum('amount') : 0;
 
-        // Contribución neta: lo que pagó en gastos + lo que ingresó
-        $diferencia  = ($gastosA + $ingresosA) - $mitad;
+        // Contribución neta: gastos pagados + ingresos propios - ingresos del otro
+        $diferencia  = ($gastosA + $ingresosA - $ingresosB) - $mitad;
 
         return [
             'totalGastos' => $totalGastos,
