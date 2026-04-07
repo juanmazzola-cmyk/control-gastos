@@ -22,13 +22,17 @@
         const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
 
-        // Si ya está instalada, ocultar banner
-        if (isStandalone) {
-            document.getElementById('pwa-install-banner').classList.add('hidden');
-        } else if (isIOS) {
-            document.getElementById('pwa-install-text').textContent = 'Instalá: Safari → compartir → "Agregar a inicio"';
-            document.getElementById('pwa-install-btn').classList.add('hidden');
-        }
+        // El banner arranca oculto; solo se muestra si no está instalada
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isStandalone) return; // ya instalada, no mostrar nada
+
+            if (isIOS) {
+                document.getElementById('pwa-install-text').textContent = 'Instalá: Safari → compartir → "Agregar a inicio"';
+                document.getElementById('pwa-install-btn').classList.add('hidden');
+                document.getElementById('pwa-install-banner').classList.remove('hidden');
+            }
+            // Para Android/Chrome el banner se muestra en el evento beforeinstallprompt
+        });
 
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -36,6 +40,7 @@
             document.getElementById('pwa-install-text').textContent = 'Instalá la app en tu celular';
             document.getElementById('pwa-install-btn').classList.remove('hidden');
             document.getElementById('pwa-install-btn').textContent = 'Instalar';
+            document.getElementById('pwa-install-banner').classList.remove('hidden');
         });
 
         function installPWA() {
@@ -72,7 +77,7 @@
         </div>
     </header>
 
-    <div id="pwa-install-banner" class="bg-indigo-600 text-white px-4 py-3 flex items-center justify-between gap-3">
+    <div id="pwa-install-banner" class="hidden bg-indigo-600 text-white px-4 py-3 flex items-center justify-between gap-3">
         <div class="flex items-center gap-2 text-sm">
             <svg class="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
