@@ -7,3 +7,4 @@ deployment:
     - cd $DEPLOYPATH && php artisan route:cache
     - cd $DEPLOYPATH && php artisan view:clear
     - cd $DEPLOYPATH && php artisan migrate --force
+    - mkdir -p $DEPLOYPATH/public/icons && php -r "foreach([192,512] as $s){$i=imagecreatetruecolor($s,$s);imagefilledellipse($i,$s/2,$s/2,$s,$s,imagecolorallocate($i,79,70,229));imagestring($i,5,(int)(($s-imagefontwidth(5))/2),(int)(($s-imagefontheight(5))/2),'\$',imagecolorallocate($i,255,255,255));imagepng($i,'$DEPLOYPATH/public/icons/icon-'.\$s.'.png');imagedestroy(\$i);}"
