@@ -1,15 +1,48 @@
 const CACHE_NAME = 'gastos-v1';
 
-self.addEventListener('install', () => self.skipWaiting());
-self.addEventListener('activate', () => self.clients.claim());
+const STATIC_ASSETS = [
+    '/icon-192.png',
+    '/icon-512.png',
+    '/manifest.json',
+];
+
+self.addEventListener('install', (event) => {
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
+    );
+    self.skipWaiting();
+});
+
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        caches.keys().then((keys) =>
+            Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
+        )
+    );
+    self.clients.claim();
+});
 
 self.addEventListener('fetch', (event) => {
-    // Solo cachear GET, dejar pasar el resto (Livewire POST, etc.)
     if (event.request.method !== 'GET') return;
-    // No cachear rutas de Livewire
-    if (event.request.url.includes('/livewire/')) return;
+
+    const url = new URL(event.request.url);
+
+    const isHtml = event.request.headers.get('Accept')?.includes('text/html')
+        || url.pathname === '/'
+        || !url.pathname.includes('.');
+
+    if (isHtml) return;
 
     event.respondWith(
-        fetch(event.request).catch(() => caches.match(event.request))
+        caches.match(event.request).then((cached) => {
+            if (cached) return cached;
+            return fetch(event.request).then((response) => {
+                if (response.ok) {
+                    const clone = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+                }
+                return response;
+            });
+        })
     );
 });
