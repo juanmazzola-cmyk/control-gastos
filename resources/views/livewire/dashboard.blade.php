@@ -420,6 +420,20 @@
             <p class="text-lg font-bold text-green-500 mt-0.5">${{ number_format($stats['totalIngresos'], 0, ',', '.') }}</p>
             <p class="text-xs text-gray-300">{{ $stats['cantIngresos'] }} registros</p>
         </div>
+        <div class="rounded-xl border p-3 shadow-sm text-center
+            {{ $balance['equilibrado'] ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200' }}">
+            <p class="text-xs {{ $balance['equilibrado'] ? 'text-green-500' : 'text-amber-500' }}">Balance</p>
+            @if ($balance['equilibrado'])
+                <p class="text-lg font-bold text-green-700 mt-0.5">Equilibrado ✓</p>
+            @else
+                <p class="text-lg font-bold text-amber-700 mt-0.5">${{ number_format($balance['diferencia'], 0, ',', '.') }}</p>
+                <p class="text-xs text-amber-600 mt-1">
+                    <strong>{{ $balance['deudor'] === 'persona_a' ? $personaA : $personaB }}</strong>
+                    le debe a
+                    <strong>{{ $balance['acreedor'] === 'persona_a' ? $personaA : $personaB }}</strong>
+                </p>
+            @endif
+        </div>
     </div>
 
 
