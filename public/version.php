@@ -2,6 +2,10 @@
 $dir = __DIR__ . '/icons';
 echo "dir: $dir\n";
 echo "dir existe: " . (is_dir($dir) ? 'SI' : 'NO') . "\n";
+echo "dir permisos: " . decoct(fileperms($dir) & 0777) . "\n";
+echo "htaccess en icons: " . (file_exists($dir . '/.htaccess') ? 'SI - ' . file_get_contents($dir . '/.htaccess') : 'NO') . "\n";
+chmod($dir, 0755);
+echo "dir permisos tras chmod: " . decoct(fileperms($dir) & 0777) . "\n";
 
 if (!is_dir($dir)) {
     $ok = mkdir($dir, 0755, true);
