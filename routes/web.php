@@ -5,4 +5,4 @@ use App\Livewire\Dashboard;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Dashboard::class);
-Route::get('/icons/icon-{size}.png', IconController::class)->where('size', '192|512');
+Route::get('/pwa-icon/{size}', IconController::class)->where('size', '192|512');
