@@ -7,4 +7,4 @@ deployment:
     - cd $DEPLOYPATH && php artisan route:cache
     - cd $DEPLOYPATH && php artisan view:clear
     - cd $DEPLOYPATH && php artisan migrate --force
-    - php $DEPLOYPATH/generate-icons.php $DEPLOYPATH/public/icons
+    - cd $DEPLOYPATH && php generate-icons.php public/icons
