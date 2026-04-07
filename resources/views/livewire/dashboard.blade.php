@@ -420,16 +420,6 @@
             <p class="text-lg font-bold text-green-500 mt-0.5">${{ number_format($stats['totalIngresos'], 0, ',', '.') }}</p>
             <p class="text-xs text-gray-300">{{ $stats['cantIngresos'] }} registros</p>
         </div>
-        <div class="rounded-xl border p-3 shadow-sm text-center
-            {{ $stats['ahorro'] >= 0 ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200' }}">
-            <p class="text-xs {{ $stats['ahorro'] >= 0 ? 'text-emerald-500' : 'text-red-400' }}">Ahorro</p>
-            <p class="text-lg font-bold {{ $stats['ahorro'] >= 0 ? 'text-emerald-700' : 'text-red-600' }} mt-0.5">
-                ${{ number_format(abs($stats['ahorro']), 0, ',', '.') }}
-            </p>
-            <p class="text-xs {{ $stats['ahorro'] >= 0 ? 'text-emerald-400' : 'text-red-400' }}">
-                {{ $stats['tasaAhorro'] }}%
-            </p>
-        </div>
     </div>
 
 
