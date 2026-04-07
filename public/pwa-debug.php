@@ -65,7 +65,7 @@ fetch('/manifest.json').then(r => {
 }).catch(e => log('manifest ERROR: ' + e, 'fail'));
 
 // 5. Iconos
-['/icons/icon.svg'].forEach(url => {
+['/icons/icon-192.png', '/icons/icon-512.png'].forEach(url => {
     fetch(url).then(r => log('Ícono ' + url + ': ' + r.status + (r.ok ? ' ✓' : ' ✗'), r.ok ? 'ok' : 'fail'))
               .catch(e => log('Ícono ' + url + ': ERROR ✗', 'fail'));
 });
